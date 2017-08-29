@@ -1,10 +1,9 @@
 {
   "name": "linter-gcc-with-avr",
   "main": "./lib/linter-gcc-with-avr",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A short description of your package",
-  "keywords": [
-  ],
+  "keywords": [],
   "activationCommands": {
     "atom-workspace": "linter-gcc-with-avr:toggle"
   },
@@ -16,6 +15,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
