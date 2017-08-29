@@ -1,73 +1,74 @@
-'use babel';
+"use babel";
 
-import LinterGccWithAvr from '../lib/linter-gcc-with-avr';
-
-// Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-//
-// To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
-// or `fdescribe`). Remove the `f` to unfocus the block.
-
-describe('LinterGccWithAvr', () => {
-  let workspaceElement, activationPromise;
+describe('The GCC provider for AtomLinter', () => {
+  const main = require('../lib/main')
+  const utility = require('../lib/utility.js')
+  var settings = require("../lib/config").settings
 
   beforeEach(() => {
-    workspaceElement = atom.views.getView(atom.workspace);
-    activationPromise = atom.packages.activatePackage('linter-gcc-with-avr');
-  });
+    waitsForPromise(() => {
+      main.messages = {};
+      atom.config.set('linter-gcc-with-avr.execPath', '/usr/bin/g++')
+      atom.config.set('linter-gcc-with-avr.gccDefaultCFlags', '-c -Wall -o /dev/null')
+      atom.config.set('linter-gcc-with-avr.gccDefaultCppFlags', '-c -Wall -std=c++11 -o /dev/null')
+      atom.config.set('linter-gcc-with-avr.gccErrorLimit', 15)
+      atom.config.set('linter-gcc-with-avr.gccIncludePaths', ' ')
+      atom.config.set('linter-gcc-with-avr.gccSuppressWarnings', true)
+      atom.config.set('linter-gcc-with-avr.gccLintOnTheFly', false)
+      atom.config.set('linter-gcc-with-avr.gccDebug', false)
+      atom.config.set('linter-gcc-with-avr.gccErrorString', 'error')
+      atom.config.set('linter-gcc-with-avr.gccWarningString', 'warning')
+      atom.config.set('linter-gcc-with-avr.gccNoteString', 'note')
+      atom.packages.activatePackage('language-c')
+      return atom.packages.activatePackage('linter-gcc-with-avr')
+    })
+  })
 
-  describe('when the linter-gcc-with-avr:toggle event is triggered', () => {
-    it('hides and shows the modal panel', () => {
-      // Before the activation event the view is not on the DOM, and no panel
-      // has been created
-      expect(workspaceElement.querySelector('.linter-gcc-with-avr')).not.toExist();
+  it('finds one error in error.cpp', () => {
+    waitsForPromise(() => {
+      filename = __dirname + '/files/error.cpp'
+      return atom.workspace.open(filename).then(editor => {
+        return main.lint(editor, editor.getPath(), editor.getPath()).then(function() {
+          var length = utility.flattenHash(main.messages).length
+          expect(length).toEqual(1);
+        })
+      })
+    })
+  })
 
-      // This is an activation event, triggering it will cause the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'linter-gcc-with-avr:toggle');
+  it('finds no errors in comment.cpp', () => {
+    waitsForPromise(() => {
+      filename = __dirname + '/files/comment.cpp'
+      return atom.workspace.open(filename).then(editor => {
+        return main.lint(editor, editor.getPath(), editor.getPath()).then(function() {
+          var length = utility.flattenHash(main.messages).length
+          expect(length).toEqual(0);
+        })
+      })
+    })
+  })
 
-      waitsForPromise(() => {
-        return activationPromise;
-      });
+  it('finds one error in error.c', () => {
+    waitsForPromise(() => {
+      filename = __dirname + '/files/error.c'
+      return atom.workspace.open(filename).then(editor => {
+        return main.lint(editor, editor.getPath(), editor.getPath()).then(function() {
+          var length = utility.flattenHash(main.messages).length
+          expect(length).toEqual(1);
+        })
+      })
+    })
+  })
 
-      runs(() => {
-        expect(workspaceElement.querySelector('.linter-gcc-with-avr')).toExist();
-
-        let linterGccWithAvrElement = workspaceElement.querySelector('.linter-gcc-with-avr');
-        expect(linterGccWithAvrElement).toExist();
-
-        let linterGccWithAvrPanel = atom.workspace.panelForItem(linterGccWithAvrElement);
-        expect(linterGccWithAvrPanel.isVisible()).toBe(true);
-        atom.commands.dispatch(workspaceElement, 'linter-gcc-with-avr:toggle');
-        expect(linterGccWithAvrPanel.isVisible()).toBe(false);
-      });
-    });
-
-    it('hides and shows the view', () => {
-      // This test shows you an integration test testing at the view level.
-
-      // Attaching the workspaceElement to the DOM is required to allow the
-      // `toBeVisible()` matchers to work. Anything testing visibility or focus
-      // requires that the workspaceElement is on the DOM. Tests that attach the
-      // workspaceElement to the DOM are generally slower than those off DOM.
-      jasmine.attachToDOM(workspaceElement);
-
-      expect(workspaceElement.querySelector('.linter-gcc-with-avr')).not.toExist();
-
-      // This is an activation event, triggering it causes the package to be
-      // activated.
-      atom.commands.dispatch(workspaceElement, 'linter-gcc-with-avr:toggle');
-
-      waitsForPromise(() => {
-        return activationPromise;
-      });
-
-      runs(() => {
-        // Now we can test for view visibility
-        let linterGccWithAvrElement = workspaceElement.querySelector('.linter-gcc-with-avr');
-        expect(linterGccWithAvrElement).toBeVisible();
-        atom.commands.dispatch(workspaceElement, 'linter-gcc-with-avr:toggle');
-        expect(linterGccWithAvrElement).not.toBeVisible();
-      });
-    });
-  });
-});
+  it('finds no errors in comment.c', () => {
+    waitsForPromise(() => {
+      filename = __dirname + '/files/comment.c'
+      return atom.workspace.open(filename).then(editor => {
+        return main.lint(editor, editor.getPath(), editor.getPath()).then(function() {
+          var length = utility.flattenHash(main.messages).length
+          expect(length).toEqual(0);
+        })
+      })
+    })
+  })
+})

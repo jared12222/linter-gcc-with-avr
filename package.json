@@ -1,19 +1,26 @@
 {
   "name": "linter-gcc-with-avr",
   "main": "./lib/linter-gcc-with-avr",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A short description of your package",
   "keywords": [],
   "activationCommands": {
     "atom-workspace": "linter-gcc-with-avr:toggle"
   },
+  "dependencies": {
+    "atom-linter": "^4.3.3",
+    "atom-package-deps": "^2.0.1",
+    "fs-extra": "^0.26.1",
+    "shelljs": "^0.5.0",
+    "split-string": "^0.1.0",
+    "tempfile": "^1.1.0"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mickey9910326/linter-gcc-with-avr.git"
+    "url": "git+https://github.com/mickey9910326/linter-gcc-with-avr-with-avr.git"
   },
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
-  },
-  "dependencies": {}
+  }
 }
