@@ -1,7 +1,7 @@
 {
   "name": "linter-gcc-with-avr",
   "main": "./lib/main",
-  "version": "1.0.5",
+  "version": "0.1.0",
   "description": "A short description of your package",
   "keywords": [],
   "dependencies": {
@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mickey9910326/linter-gcc-with-avr-with-avr.git"
+    "url": "git+https://github.com/mickey9910326/linter-gcc-with-avr.git"
   },
   "license": "MIT",
   "engines": {

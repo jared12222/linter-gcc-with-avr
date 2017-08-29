@@ -8,7 +8,7 @@ describe('The GCC provider for AtomLinter', () => {
   beforeEach(() => {
     waitsForPromise(() => {
       main.messages = {};
-      atom.config.set('linter-gcc-with-avr.execPath', '/usr/bin/g++')
+      atom.config.set('linter-gcc-with-avr.execPath', 'gcc')
       atom.config.set('linter-gcc-with-avr.gccDefaultCFlags', '-c -Wall -o /dev/null')
       atom.config.set('linter-gcc-with-avr.gccDefaultCppFlags', '-c -Wall -std=c++11 -o /dev/null')
       atom.config.set('linter-gcc-with-avr.gccErrorLimit', 15)
