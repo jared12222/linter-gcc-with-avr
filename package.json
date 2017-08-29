@@ -1,6 +1,6 @@
 {
   "name": "linter-gcc-with-avr",
-  "main": "./lib/linter-gcc-with-avr",
+  "main": "./lib/main",
   "version": "1.0.3",
   "description": "A short description of your package",
   "keywords": [],
