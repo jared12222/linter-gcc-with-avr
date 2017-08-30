@@ -67,3 +67,7 @@ $ apm install linter-gcc
 ### Reporting Issues
 
 Please read the [Wiki](https://github.com/hebaishi/linter-gcc/wiki/) before reporting any issues.
+
+### TODO
+ 1. edit README
+ 2. add key to switch avrmode

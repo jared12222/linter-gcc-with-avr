@@ -12,6 +12,10 @@
     "split-string": "^0.1.0",
     "tempfile": "^1.1.0"
   },
+  "optionalDependencies": {},
+  "package-deps": [
+    "linter"
+  ],
   "providedServices": {
     "linter": {
       "versions": {
